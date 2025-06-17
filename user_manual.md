@@ -3,10 +3,10 @@
 
 This repository holds an add-hoc collection of filter functions for use with Pandoc. 
 
-[elements.lua](elements.lua)
-: This filter combines the filters below into one filter file.
+[examples.lua](elements.lua)
+: Shows two filters applied sequencially to an AST.
 
-Example: `pandoc  --lua-filter=elements.lua -o output.md yourfile.md`
+Example: `pandoc  --lua-filter=examples.lua -o output.md yourfile.md`
 
 
 [links-to-html.lua](links-to-html.lua)

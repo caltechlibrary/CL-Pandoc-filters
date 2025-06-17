@@ -1,5 +1,10 @@
 
 --
+-- This is an example of filters applied sequencially
+-- It will first apply the Link then apply Header.
+--
+
+--
 -- links-to-html.lua converts links to local Markdown documents to
 -- there respective .html counterparts.
 --
