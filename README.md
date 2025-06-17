@@ -37,6 +37,5 @@ This is start of a collection of Pandoc Filters to support DLD groups documentat
 
 - [Getting Help, Reporting bugs](https://github.com/caltechlibrary/CL-Pandoc-filters/issues)
 - [LICENSE](https://github.com/caltechlibrary/CL-Pandoc-filters/blob/main/LICENSE)
-- [Installation](INSTALL.md)
 - [About](about.md)
 
