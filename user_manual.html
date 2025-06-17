@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <title>CL-Pandoc-filters</title>
+    <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+<nav>
+<ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="index.html">README</a></li>
+    <li><a href="LICENSE">LICENSE</a></li>
+<!--    <li><a href="INSTALL.html">INSTALL</a></li> -->
+    <li><a href="user_manual.html">User Manual</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="search.html">Search</a></li>
+    <li><a href="https://github.com/caltechlibrary/CL-Pandoc-filters">GitHub</a></li>
+</ul>
+</nav>
+<section>
+<h1 id="user-manual">User Manual</h1>
+<p>This repository holds an add-hoc collection of filter functions for
+use with Pandoc.</p>
+<dl>
+<dt><a href="elements.lua">elements.lua</a></dt>
+<dd>
+This filter combines the filters below into one filter file.
+</dd>
+</dl>
+<p>Example:
+<code>pandoc  --lua-filter=elements.lua -o output.md yourfile.md</code></p>
+<dl>
+<dt><a href="links-to-html.lua">links-to-html.lua</a></dt>
+<dd>
+This is a transform of links to markdown documents (<code>.md</code>
+files) to their HTML equivallent (<code>.html</code>)
+</dd>
+</dl>
+<p>Example:
+<code>pandoc  --lua-filter=links-to-html.lua -o output.md yourfile.md</code></p>
+<dl>
+<dt><a href="header-mdash.lua">header-mdash.lua</a></dt>
+<dd>
+This allows a double dash Markdown symbol to exist in a header.
+</dd>
+</dl>
+<p>Example:
+<code>pandoc  --lua-filter=header-mdash.lua -o output.md yourfile.md</code></p>
+</section>
+</body>
+</html>
