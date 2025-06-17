@@ -25,7 +25,6 @@ pagefind: .FORCE
 	pagefind --verbose --glob="{*.html,docs/*.html}" --force-language en-US --exclude-selectors="nav,header,footer" --output-path ./pagefind --site .
 	git add pagefind
 
-
 status:
 	git status
 
@@ -33,9 +32,9 @@ save:
 	if [ "$(msg)" != "" ]; then git commit -am "$(msg)"; else git commit -am "Quick Save"; fi
 	git push origin $(BRANCH)
 
-
 publish: build .FORCE
 	./publish.bash
+
 clean:
 	@rm *.html
 
