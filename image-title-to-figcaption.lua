@@ -1,17 +1,17 @@
 --[[
 Pandoc Lua filter: image-title-to-figcaption.lua
 (with help from Claude Sonnet 4)
+(and blended with [ideas from Achuan-2](https://github.com/jgm/pandoc/issues/8752#issuecomment-2940636242))
 
 DESCRIPTION:
-  Converts Pandoc Figure elements (from Markdown images with titles) to custom HTML <figure> blocks.
-  The image title (caption) is rendered as HTML in <figcaption>, preserving formatting (bold, italic, etc.).
-  This filter outputs the final HTML directly—no JavaScript post-processing is required.
+  Sets the caption of figures (from Markdown images with titles) to the image's title, supporting Markdown formatting in the caption.
+  If there is no title, no caption is generated. This preserves Pandoc's default Figure handling (IDs, classes, etc.), but allows rich formatting in captions.
 
 IMPLEMENTATION:
-  - Intercepts Figure elements in the Pandoc AST
-  - Extracts the image, alt text, and caption
-  - Converts the caption to HTML, preserving formatting
-  - Outputs a single RawBlock with the desired <figure> HTML
+  - Intercepts Para blocks containing a single image, and wraps them in a Figure if the image has a title.
+  - Intercepts Figure blocks, and sets the caption from the image's title, parsing it as Markdown for formatting.
+  - If there is no title, ensures no caption is generated.
+  - Returns the modified block, so Pandoc's default writer handles the HTML output.
 
 USAGE:
   pandoc --lua-filter=image-title-to-figcaption.lua input.md -o output.html
@@ -21,48 +21,53 @@ EXAMPLE:
   Output: <figure><img src="image.jpg" alt="alt"/><figcaption><strong>Bold</strong> and <em>italic</em> text</figcaption></figure>
 ]]
 
-function Figure(elem)
-  -- Find the image inside the Figure's content (which is a list of blocks)
-  local img = nil
-  for _, block in ipairs(elem.content) do
-    if block.t == "Plain" and #block.content == 1 and block.content[1].t == "Image" then
-      img = block.content[1]
-      break
+-- Helper to create a caption from Markdown-formatted text
+local function create_caption(text)
+  if not text or text:find("^%s*$") then
+    return {}
+  else
+    -- Parse the title as markdown and return its blocks
+    return pandoc.read(text, 'markdown').blocks
+  end
+end
+
+function Para(para)
+  -- Check if the paragraph contains only an image
+  if #para.content == 1 and para.content[1].t == "Image" then
+    local img = para.content[1]
+    if img.title and img.title ~= "" then
+      -- Remove the title attribute
+      img.title = ""
+      local content = {pandoc.Plain({img})}
+      local caption = create_caption(img.title)
+      return pandoc.Figure(content, caption)
+    else
+      -- If only alt text (no title), ensure no caption
+      img.caption = {}
+      img.title = ""
+      return pandoc.Para({img})
     end
   end
+  return para
+end
 
-  if not img then
-    return nil
+function Figure(fig)
+  -- Look for an image in the figure
+  for _, block in ipairs(fig.content) do
+    if block.t == "Plain" then
+      for _, inline in ipairs(block.content) do
+        if inline.t == "Image" then
+          local img = inline
+          if img.title and img.title ~= "" then
+            fig.caption = create_caption(img.title)
+            img.title = ""
+          else
+            fig.caption = {}
+            img.title = ""
+          end
+        end
+      end
+    end
   end
-
-  -- Get image src and alt
-  local src = img.src
-  local alt = pandoc.utils.stringify(img.caption or img.alt or {})
-
-  -- Get the image title (caption text)
-  local title = img.title or ""
-
-  -- Convert the title (markdown) to HTML for the figcaption
-  local caption_html = ""
-  if title ~= "" then
-    local parsed = pandoc.read(title, "markdown")
-    caption_html = pandoc.write(parsed, "html")
-    caption_html = caption_html:gsub("^%s*<p>(.-)</p>%s*$", "%1") -- remove <p> if present
-  end
-
-  -- Build the custom HTML
-  local html
-  if caption_html ~= "" then
-    html = string.format(
-      '<figure><img src="%s" alt="%s"/><figcaption>%s</figcaption></figure>',
-      src, alt, caption_html
-    )
-  else
-    html = string.format(
-      '<figure><img src="%s" alt="%s"/></figure>',
-      src, alt
-    )
-  end
-
-  return pandoc.RawBlock("html", html)
+  return fig
 end
