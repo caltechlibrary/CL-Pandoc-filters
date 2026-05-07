@@ -64,8 +64,12 @@ This is a repository for Pandoc Filters used by Caltech Library&#x27;s Digital R
 
 ## Software Requirements
 
-- Pandoc >= 3.1
+- Pandoc >= 3.9
 
 
+## Software Suggestions
+
+- CMTools >= 0.0.43
+- GNU Make >= 3.8
 
 
