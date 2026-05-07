@@ -36,35 +36,35 @@ About this software
 
 This is start of a collection of Pandoc Filters to support DLD groups documentation efforts.
 
-### Authors
+## Authors
 
-- R. S. Doiel, <https://orcid.org/0000-0003-0900-6903>
-- Tommy Keswick, <https://orcid.org/0000-0001-5644-440X>
-
-
+- [R. S. Doiel](https://orcid.org/0000-0003-0900-6903)
+- [Tommy Keswick](https://orcid.org/0000-0001-5644-440X)
 
 
-### Maintainers
 
-- R. S. Doiel, <https://orcid.org/0000-0003-0900-6903>
+
+## Maintainers
+
+- [R. S. Doiel](https://orcid.org/0000-0003-0900-6903)
 
 
 This is a repository for Pandoc Filters used by Caltech Library&#x27;s Digital Repository Development Group.
 
-- License: <https://github.com/caltechlibrary/CL-Pandoc-filters/blob/main/LICENSE>
-- GitHub: <https://github.com/caltechlibrary/CL-Pandoc-filters>
-- Issues: <https://github.com/caltechlibrary/CL-Pandoc-filters/issues>
+- [License](https://github.com/caltechlibrary/CL-Pandoc-filters/blob/main/LICENSE)
+- [Code Repository](https://github.com/caltechlibrary/CL-Pandoc-filters)
+  - [Issue Tracker](https://github.com/caltechlibrary/CL-Pandoc-filters/issues)
 
-### Programming languages
+## Programming languages
 
 - Lua
 
 
 
 
-### Software Requirements
+## Software Requirements
 
-- Pandoc &gt;&#x3D; 3.1
+- Pandoc >= 3.1
 
 
 
